@@ -18,8 +18,9 @@ export function TopBar({
   onOpenAddModal,
   counts,
 }: TopBarProps) {
-  const navItems: {id: NavTab; label: string; count: number}[] = [
+  const navItems: {id: NavTab; label: string; count?: number}[] = [
     {id: 'today', label: '오늘 집중', count: counts.today},
+    {id: 'board', label: '메시지 보드 🐶'},
     {id: 'all', label: '전체 일정', count: counts.all},
     {id: 'completed', label: '완료 기록', count: counts.completed},
   ];
@@ -31,9 +32,9 @@ export function TopBar({
         <button
           type="button"
           onClick={() => onSelectTab('today')}
-          className="text-lg font-bold tracking-tight text-[var(--color-primary,#3B66C4)] whitespace-nowrap shrink-0 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--color-primary,#3B66C4)] rounded-md px-1 -ml-1 transition-colors"
+          className="text-lg font-bold tracking-tight text-[var(--color-primary,#3B66C4)] whitespace-nowrap shrink-0 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--color-primary,#3B66C4)] rounded-md px-1 -ml-1 transition-colors flex items-center gap-1.5"
         >
-          FocusDo
+          <span>FocusDo</span>
         </button>
 
         {/* Zone 2: Concise single-line navigation links */}
@@ -55,9 +56,11 @@ export function TopBar({
                 }`}
               >
                 <span>{item.label}</span>
-                <span className="ml-1.5 font-mono text-xs tabular-nums opacity-75">
-                  {item.count}
-                </span>
+                {item.count !== undefined && (
+                  <span className="ml-1.5 font-mono text-xs tabular-nums opacity-75">
+                    {item.count}
+                  </span>
+                )}
                 {isActive && (
                   <span
                     aria-hidden="true"

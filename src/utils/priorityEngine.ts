@@ -1,4 +1,6 @@
 import {
+  CharacterMood,
+  CharacterStage,
   DurationTieBreaker,
   ImportanceScore,
   TaskItem,
@@ -60,6 +62,74 @@ export function getUrgencyMeta(daysRemaining: number): {
     return {level, dDayLabel, statusLabel: '마감 임박'};
   }
   return {level, dDayLabel, statusLabel: '여유'};
+}
+
+/**
+ * 4-Stage Dog Character mood mapping based on deadline_message_board_ui_81491f83.md
+ * Stage 1 (여유): D-5 이상 (혀 메롱, 편안함, 초록 #4ADE80)
+ * Stage 2 (주의): D-3 ~ D-4 (일자 입, 살짝 긴장, 노랑 #FACC15)
+ * Stage 3 (경고): D-1 ~ D-2 (찌푸린 눈썹, 정색, 주황 #FB923C)
+ * Stage 4 (긴급/D-Day): D-Day 이하 (험악한 불독/가시 표정, 빨강 #EF4444)
+ */
+export function getCharacterMood(
+  daysRemaining: number,
+  completed = false,
+): CharacterMood {
+  if (completed) {
+    return {
+      stage: 1,
+      stageName: '완료',
+      themeColor: '#10B981',
+      badgeBg: 'bg-emerald-500',
+      badgeText: 'text-emerald-700',
+      defaultMessage: '완료된 업무예요! 정말 수고 많으셨습니다 🎉',
+    };
+  }
+
+  if (daysRemaining <= 0) {
+    const isOverdue = daysRemaining < 0;
+    return {
+      stage: 4,
+      stageName: isOverdue ? `D+${Math.abs(daysRemaining)} 지연` : 'D-Day 긴급',
+      themeColor: '#EF4444',
+      badgeBg: 'bg-[#EF4444]',
+      badgeText: 'text-[#EF4444]',
+      defaultMessage: isOverdue
+        ? `마감일이 ${Math.abs(daysRemaining)}일 지났습니다! 지금 당장 제출하세요! 💥`
+        : '오늘 마감입니다!!! 지금 당장 제출하세요! 😡🔥',
+    };
+  }
+
+  if (daysRemaining <= 2) {
+    return {
+      stage: 3,
+      stageName: `D-${daysRemaining} 경고`,
+      themeColor: '#FB923C',
+      badgeBg: 'bg-[#FB923C]',
+      badgeText: 'text-[#FB923C]',
+      defaultMessage: `마감 임박! 초안 검토하고 서둘러 제출하세요! ⚠️`,
+    };
+  }
+
+  if (daysRemaining <= 4) {
+    return {
+      stage: 2,
+      stageName: `D-${daysRemaining} 주의`,
+      themeColor: '#FACC15',
+      badgeBg: 'bg-[#FACC15]',
+      badgeText: 'text-[#ca8a04]',
+      defaultMessage: `마감 ${daysRemaining}일 전입니다. 슬슬 서두르세요! 😐`,
+    };
+  }
+
+  return {
+    stage: 1,
+    stageName: `D-${daysRemaining} 여유`,
+    themeColor: '#4ADE80',
+    badgeBg: 'bg-[#4ADE80]',
+    badgeText: 'text-emerald-700',
+    defaultMessage: `아직 마감까지 ${daysRemaining}일 남았어요~ 시간 넉넉해요! 🎵`,
+  };
 }
 
 export function formatDuration(minutes: number): string {

@@ -13,9 +13,11 @@ import {TaskItem} from '../types/todo';
 import {
   formatDateKorean,
   formatDuration,
+  getCharacterMood,
   getDaysRemaining,
   getUrgencyMeta,
 } from '../utils/priorityEngine';
+import {DogAvatar} from './DogAvatar';
 
 interface TaskRowProps {
   task: TaskItem;
@@ -40,6 +42,7 @@ export function TaskRow({
 
   const daysRemaining = getDaysRemaining(task.dueDate);
   const {level, dDayLabel, statusLabel} = getUrgencyMeta(daysRemaining);
+  const mood = getCharacterMood(daysRemaining, task.completed);
 
   const urgencyTextClass = task.completed
     ? 'text-[var(--color-text-muted,#7A8291)]'
@@ -83,7 +86,7 @@ export function TaskRow({
       className={`rounded-2xl border transition-all ${cardSurfaceClass}`}
     >
       <div className="p-4 sm:p-5 flex items-start gap-3 sm:gap-4">
-        {/* 44x44px hit target check button */}
+        {/* Check Button */}
         <button
           type="button"
           onClick={() => onToggleComplete(task.id)}
@@ -109,6 +112,11 @@ export function TaskRow({
           </span>
         </button>
 
+        {/* Reactive D-Day Dog Character Avatar */}
+        <div className="shrink-0 pt-0.5">
+          <DogAvatar stage={mood.stage} completed={task.completed} size={38} />
+        </div>
+
         {/* Main task content */}
         <div className="flex-1 min-w-0">
           <div className="flex flex-wrap items-start justify-between gap-x-4 gap-y-1.5">
@@ -129,7 +137,7 @@ export function TaskRow({
               </h3>
             </div>
 
-            {/* Semantic D-Day & Urgency label (not hue-only, zero pill) */}
+            {/* Semantic D-Day & Urgency label */}
             <div
               className={`inline-flex items-center gap-1.5 text-xs tabular-nums shrink-0 ${urgencyTextClass}`}
             >
@@ -142,7 +150,7 @@ export function TaskRow({
               {!task.completed && level === 'normal' && (
                 <Calendar className="w-3.5 h-3.5 shrink-0 text-[var(--color-text-muted,#7A8291)]" />
               )}
-              <span className="font-mono">{dDayLabel}</span>
+              <span className="font-mono font-bold">{dDayLabel}</span>
               <span aria-hidden="true">·</span>
               <span>{task.completed ? '완료' : statusLabel}</span>
             </div>
@@ -155,6 +163,14 @@ export function TaskRow({
             <span>예상 {formatDuration(task.estimatedMinutes)}</span>
             <span aria-hidden="true">·</span>
             <span>{formatDateKorean(task.dueDate)} 마감</span>
+            {!task.completed && (
+              <>
+                <span aria-hidden="true">·</span>
+                <span className="font-medium text-[#1E1E1E]">
+                  {mood.stageName}
+                </span>
+              </>
+            )}
           </div>
 
           {/* Progress Bar + Interactive Expand Trigger */}

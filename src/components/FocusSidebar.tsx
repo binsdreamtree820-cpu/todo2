@@ -1,7 +1,6 @@
 import {
   AlertCircle,
   ArrowDownUp,
-  CheckCircle2,
   Clock,
   RotateCcw,
 } from 'lucide-react';
@@ -9,9 +8,11 @@ import {DurationTieBreaker, TaskItem} from '../types/todo';
 import {
   formatDateKorean,
   formatDuration,
+  getCharacterMood,
   getDaysRemaining,
   getUrgencyMeta,
 } from '../utils/priorityEngine';
+import {DogAvatar} from './DogAvatar';
 
 interface FocusSidebarProps {
   topTask: TaskItem | null;
@@ -39,10 +40,11 @@ export function FocusSidebar({
 }: FocusSidebarProps) {
   const topDays = topTask ? getDaysRemaining(topTask.dueDate) : 0;
   const topMeta = topTask ? getUrgencyMeta(topDays) : null;
+  const topMood = topTask ? getCharacterMood(topDays, topTask.completed) : null;
 
   return (
     <aside className="space-y-6">
-      {/* 1. Top Priority Spotlight */}
+      {/* 1. Top Priority Spotlight with Reactive Dog Avatar */}
       <section className="bg-[var(--color-bg-surface,#FFFFFF)] border border-[var(--color-border,#E2E7F0)] rounded-2xl p-5 sm:p-6 shadow-xs">
         <div className="flex items-center justify-between gap-3">
           <h2 className="text-sm font-bold text-[var(--color-text-main,#22252A)] tracking-tight">
@@ -71,8 +73,21 @@ export function FocusSidebar({
           )}
         </div>
 
-        {topTask ? (
+        {topTask && topMood ? (
           <div className="mt-4">
+            {/* Dog Character Speech Bubble */}
+            <div className="flex items-center gap-3 p-3 rounded-xl bg-[var(--color-bg-page,#F5F7FA)] border border-[var(--color-border,#E2E7F0)] mb-3">
+              <DogAvatar stage={topMood.stage} size={50} />
+              <div className="flex-1 min-w-0">
+                <div className="text-[11px] font-bold text-[var(--color-primary,#3B66C4)]">
+                  {topMood.stageName} 캐릭터 조언
+                </div>
+                <div className="text-xs font-bold text-[#1E1E1E] leading-snug break-keep">
+                  &ldquo;{topMood.defaultMessage}&rdquo;
+                </div>
+              </div>
+            </div>
+
             <p className="text-base font-bold text-[var(--color-text-main,#22252A)] leading-snug break-keep">
               {topTask.title}
             </p>
@@ -134,12 +149,14 @@ export function FocusSidebar({
           </div>
         ) : (
           <div className="mt-4 py-4 text-center">
-            <CheckCircle2 className="w-8 h-8 text-emerald-600 mx-auto mb-2" />
+            <div className="flex justify-center mb-2">
+              <DogAvatar stage={1} completed={true} size={64} />
+            </div>
             <p className="text-sm font-semibold text-[var(--color-text-main,#22252A)]">
-              남은 업무를 모두 마쳤습니다
+              남은 업무를 모두 마쳤습니다 🎉
             </p>
             <p className="mt-1 text-xs text-[var(--color-text-muted,#7A8291)]">
-              새 할 일을 등록하면 우선순위에 따라 자동 배치됩니다.
+              강아지가 흐뭇하게 웃고 있어요!
             </p>
           </div>
         )}

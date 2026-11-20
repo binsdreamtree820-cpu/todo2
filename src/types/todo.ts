@@ -2,11 +2,22 @@ export type ImportanceScore = 1 | 2 | 3 | 4 | 5;
 
 export type UrgencyLevel = 'critical' | 'warning' | 'normal';
 
-export type NavTab = 'today' | 'all' | 'completed';
+export type NavTab = 'today' | 'board' | 'all' | 'completed';
 
 export type UrgencyFilter = 'all' | 'critical' | 'warning' | 'normal';
 
 export type DurationTieBreaker = 'shortest' | 'longest';
+
+export type CharacterStage = 1 | 2 | 3 | 4;
+
+export interface CharacterMood {
+  stage: CharacterStage;
+  stageName: string;
+  themeColor: string;
+  badgeBg: string;
+  badgeText: string;
+  defaultMessage: string;
+}
 
 export interface TaskItem {
   id: string;
