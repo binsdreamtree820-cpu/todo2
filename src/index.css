@@ -1,0 +1,100 @@
+@import "tailwindcss";
+@import "../public/assets/aistudio/gemini-code-1795154359669_3d7a64d5.css";
+
+:root {
+  /* Brand & Accent */
+  --color-primary: #3B66C4;
+  --color-primary-light: #5B82D6;
+  --color-primary-dark: #254696;
+  --color-tint-blue: #EBF1FC;
+
+  --color-accent-yellow: #F9D448;
+  --color-accent-red: #E04836;
+  --color-accent-orange: #F27D31;
+
+  /* Neutrals */
+  --color-bg-page: #F5F7FA;
+  --color-bg-surface: #FFFFFF;
+  --color-border: #E2E7F0;
+  --color-text-main: #22252A;
+  --color-text-muted: #7A8291;
+}
+
+@theme {
+  --font-sans: "Plus Jakarta Sans", "Noto Sans KR", -apple-system, BlinkMacSystemFont, sans-serif;
+  --font-display: "Plus Jakarta Sans", "Noto Sans KR", sans-serif;
+  --font-mono: "JetBrains Mono", monospace;
+
+  --color-primary: #3B66C4;
+  --color-primary-light: #5B82D6;
+  --color-primary-dark: #254696;
+  --color-tint-blue: #EBF1FC;
+
+  --color-accent-yellow: #F9D448;
+  --color-accent-red: #E04836;
+  --color-accent-orange: #F27D31;
+
+  --color-bg-page: #F5F7FA;
+  --color-bg-surface: #FFFFFF;
+  --color-border: #E2E7F0;
+  --color-text-main: #22252A;
+  --color-text-muted: #7A8291;
+}
+
+@layer base {
+  html {
+    font-family: var(--font-sans);
+    scroll-behavior: smooth;
+    background-color: var(--color-bg-page);
+    color: var(--color-text-main);
+  }
+
+  body {
+    background-color: var(--color-bg-page);
+    color: var(--color-text-main);
+    min-height: 100vh;
+  }
+
+  .tabular-nums {
+    font-variant-numeric: tabular-nums;
+  }
+}
+
+/* Custom range slider for tactile progress updates */
+input[type="range"].focusdo-slider {
+  -webkit-appearance: none;
+  appearance: none;
+  background: transparent;
+  cursor: pointer;
+}
+
+input[type="range"].focusdo-slider::-webkit-slider-runnable-track {
+  height: 6px;
+  border-radius: 9999px;
+}
+
+input[type="range"].focusdo-slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 18px;
+  height: 18px;
+  border-radius: 9999px;
+  background: var(--color-primary, #3B66C4);
+  border: 2px solid #ffffff;
+  box-shadow: 0 1px 3px rgba(37, 70, 150, 0.3);
+  margin-top: -6px;
+  transition: transform 150ms cubic-bezier(0.16, 1, 0.3, 1), background-color 150ms ease;
+}
+
+input[type="range"].focusdo-slider:hover::-webkit-slider-thumb {
+  transform: scale(1.15);
+  background: var(--color-primary-dark, #254696);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}

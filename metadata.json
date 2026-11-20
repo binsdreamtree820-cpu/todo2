@@ -1,0 +1,6 @@
+{
+  "name": "FocusDo — 스마트 우선순위 투두",
+  "description": "중요도, 마감일 시급성, 예상 소요 시간을 기준으로 오늘 집중할 업무를 자동 정렬하는 직장인용 스마트 투두리스트",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

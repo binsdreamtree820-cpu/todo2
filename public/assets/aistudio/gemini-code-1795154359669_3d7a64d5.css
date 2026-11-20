@@ -1,0 +1,18 @@
+:root {
+  /* Brand & Accent */
+  --color-primary: #3B66C4;
+  --color-primary-light: #5B82D6;
+  --color-primary-dark: #254696;
+  --color-tint-blue: #EBF1FC;
+
+  --color-accent-yellow: #F9D448;
+  --color-accent-red: #E04836;
+  --color-accent-orange: #F27D31;
+
+  /* Neutrals */
+  --color-bg-page: #F5F7FA;
+  --color-bg-surface: #FFFFFF;
+  --color-border: #E2E7F0;
+  --color-text-main: #22252A;
+  --color-text-muted: #7A8291;
+}
